@@ -12,7 +12,7 @@ import {
 
 const components: { title: string, href: string, description: string }[] = [
     {
-        title: 'Alert Dialog',
+        title: 'Əsas səhifə',
         href: '/docs/components/alert-dialog',
         description:
             'A modal dialog that interrupts the user with important content and expects a response.',
@@ -77,13 +77,13 @@ const components: { title: string, href: string, description: string }[] = [
 
                         <li>
                             <NavigationMenuLink as-child>
-                                <a href="/docs/introduction"
+                                <NuxtLink :to="$localePath('/')"
                                     class="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                                    <div class="text-sm font-medium leading-none">Introduction</div>
+                                    <div class="text-sm font-medium leading-none">{{ $t('mainPage') }}</div>
                                     <p class="line-clamp-2 text-sm leading-snug text-muted-foreground">
                                         Re-usable components built using Radix UI and Tailwind CSS.
                                     </p>
-                                </a>
+                                </NuxtLink>
                             </NavigationMenuLink>
                         </li>
                         <li>

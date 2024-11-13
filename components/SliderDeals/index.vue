@@ -119,7 +119,7 @@ const localePath = useLocalePath()
                 <div class="p-1">
 
                     <NuxtLink :to="localePath({ name: 'product-id', params: { id: product.id } })">
-                        <HoverCard class="border-none cursor-pointer group overflow-hidden">
+                        <Card class="border-none group cursor-pointer  overflow-hidden">
                             <CardContent class="flex aspect-square items-center justify-center p-0 relative">
                                 <div class="img_wrapper border rounded-md overflow-hidden top-0 left-0 w-full h-full">
                                     <NuxtImg densities="x1" format="webp" :src="product.src" alt="slider_logo"
@@ -163,8 +163,9 @@ const localePath = useLocalePath()
                             <CardFooter>
                                 Card Footer
                             </CardFooter>
-                        </HoverCard>
+                        </Card>
                     </NuxtLink>
+
 
                 </div>
             </CarouselItem>

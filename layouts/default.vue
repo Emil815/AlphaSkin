@@ -2,6 +2,6 @@
     <div class="">
         <Header />
         <slot />
-        <Footer />
+        <Footer class="mt-4" />
     </div>
 </template>

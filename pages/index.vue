@@ -66,7 +66,7 @@ const banners = [
 
         <section class="container mt-4" id="deals">
 
-            <SliderDeals/>
+            <SliderDeals />
         </section>
     </div>
 </template>

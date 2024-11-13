@@ -49,7 +49,7 @@ const stop = watch(api, (api) => {
                             <NuxtImg densities="x1" format="webp" :src="slide.src" alt="slider_logo" />
                             <div
                                 class="text_wrapper absolute t-0 left-0 bg-transparent h-full w-full flex justify-center items-center">
-                                <h1 :key="activeIndex" class="animate-left-to-right">salamlar olsuin {{ activeIndex }}</h1>
+                                <h1 :key="activeIndex" class="animate-left-to-right">Alpha Skin XEYIRLI OLSUN {{ activeIndex }}</h1>
 
                             </div>
                         </CardContent>
