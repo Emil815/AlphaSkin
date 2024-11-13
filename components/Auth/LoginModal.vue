@@ -25,6 +25,7 @@ import {
 } from '@/components/ui/drawer'
 
 const formSchema = toTypedSchema(loginSchema)
+const localePath = useLocalePath()
 
 const formLogin = useForm({
     validationSchema: formSchema,
@@ -39,6 +40,10 @@ const formLogin = useForm({
 const { login, refreshToken } = useAuth()
 const onSubmit = formLogin.handleSubmit(async (values) => {
     const datas = await login(values as LoginForm)
+
+    if (datas?.accessToken) {
+        navigateTo(localePath('/'));
+    }
 })
 
 
@@ -52,11 +57,12 @@ const onSubmit = formLogin.handleSubmit(async (values) => {
         <!-- Adjusted DrawerContent to decrease width from the left -->
         <DrawerContent class="absolute top-0 left-auto right-0 w-[600px] h-full m-0 p-4">
             <div class="mx-auto w-full">
-                <DrawerHeader>
-                    <DrawerTitle>Sign In</DrawerTitle>
-                </DrawerHeader>
-                <div class="p-4 pb-0">
-                    <form @submit="onSubmit">
+                <form @submit="onSubmit">
+
+                    <DrawerHeader>
+                        <DrawerTitle>Sign In</DrawerTitle>
+                    </DrawerHeader>
+                    <div class="p-4 pb-0">
                         <FormField v-slot="{ componentField }" name="phoneNumber">
                             <FormItem>
                                 <FormLabel>Phone number</FormLabel>
@@ -75,18 +81,19 @@ const onSubmit = formLogin.handleSubmit(async (values) => {
                                 <FormMessage />
                             </FormItem>
                         </FormField>
-                    </form>
-                </div>
-                <DrawerFooter>
-                    <Button type="submit">Submit</Button>
-                    <NuxtLink class="w-full" :to="$localePath('register')"> <Button class="w-full"
-                            variant="outline">Register</Button></NuxtLink>
-                    <DrawerClose as-child>
-                        <Button variant="outline">
-                            Cancel
-                        </Button>
-                    </DrawerClose>
-                </DrawerFooter>
+                    </div>
+                    <DrawerFooter>
+                        <Button type="submit">Submit</Button>
+                        <NuxtLink class="w-full" :to="$localePath('register')"> <Button class="w-full"
+                                variant="outline">Register</Button></NuxtLink>
+                        <DrawerClose as-child>
+                            <Button variant="outline">
+                                Cancel
+                            </Button>
+                        </DrawerClose>
+                    </DrawerFooter>
+                </form>
+
             </div>
         </DrawerContent>
     </Drawer>
