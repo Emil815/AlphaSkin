@@ -5,29 +5,20 @@ import {
     CardHeader,
     CardTitle
 } from "@/components/ui/card"
+import { fetchProducts } from "~/controllers/product";
 
 
 
-const banners = [
-    {
-        id: '1',
-        src: "/banner.webp",
-        tite: 'Table & Smartphones',
-        discount: "UP TO 30& OFF"
-    },
-    {
-        id: '2',
-        src: "/banner.webp",
-        tite: 'Table & Smartphones',
-        discount: "UP TO 30& OFF"
-    },
-    {
-        id: '3',
-        src: "/banner.webp",
-        tite: 'Table & Smartphones',
-        discount: "UP TO 30& OFF"
-    }
-]
+const products = await fetchProducts()
+
+console.log({products})
+
+const imageSrc = computed(() => {
+    return `data:${response.imageType};base64,${response.imageData}`;
+});
+
+
+
 
 </script>
 
@@ -42,15 +33,15 @@ const banners = [
         <section class="container mt-4" id="banners">
             <div class="grid grid-cols-12 gap-3">
 
-                <div class="col-span-4" v-for="banner in banners" :key="banner.id">
+                <div class="col-span-4" v-for="product in products?.content" :key="product.code">
                     <Card class="group overflow-hidden">
                         <CardContent class="p-0 relative cursor-pointer">
-                            <NuxtImg densities="x1" format="webp" :src="banner.src" alt="slider_logo"
+                            <NuxtImg densities="x1" format="webp" :src="`data:${product.imageType};base64,${product.imageData}`" alt="slider_logo"
                                 class="transform transition-transform duration-300 ease-in-out group-hover:scale-105" />
                             <div
                                 class="absolute top-0 left-0 max-w-[185px] flex flex-col justify-center text-center h-full">
-                                <CardHeader>{{ banner.discount }}</CardHeader>
-                                <CardTitle>{{ banner.tite }}</CardTitle>
+                                <CardHeader>{{ product.description }}</CardHeader>
+                                <CardTitle>{{ product.name }}</CardTitle>
                             </div>
                         </CardContent>
                     </Card>

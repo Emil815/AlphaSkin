@@ -9,5 +9,5 @@ export const loginSchema = z.object({
   phoneNumber,
   password: z
     .string()
-    .min(6, { message: "Password must be at least 6 characters long" }),
+    .min(4, { message: "Password must be at least 6 characters long" }),
 });

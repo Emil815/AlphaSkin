@@ -1,11 +1,15 @@
 export default (url, options = {}) => {
-  const { useAuthToken } = useAuth();
+    const { useAuthToken } = useAuth();
+    const config = useRuntimeConfig();
 
-  return $fetch(url, {
-    ...options,
-    headers: {
-      ...options.headers,
-      Authorization: `Bearer ${useAuthToken().value}`,
-    },
-  });
+
+    console.log({ options })
+    return $fetch(url, {
+        ...options,
+        baseURL: config.public.apiBase,
+        // headers: {
+        //     ...options.headers,
+        //     Authorization: `Bearer ${useAuthToken().value}`,
+        // },
+    });
 };
