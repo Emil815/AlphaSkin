@@ -1,105 +1,95 @@
-<script setup lang="ts">
-import { useForm } from 'vee-validate'
+<template>
+    <div>
+        <a-modal v-model:open="props.isOpen" title="Title" @ok="handleOk" @update:open="handleCancel">
+            <template #footer>
+                <a-button key="back" @click="handleCancel">Return</a-button>
+                <a-button key="submit" type="primary" :loading="loading" @click="handleOk">Submit</a-button>
+            </template>
+            <form @submit="onSubmit">
+                <FormField v-slot="{ componentField }" name="phoneNumber">
+                    <FormItem>
+                        <FormLabel>Phone number</FormLabel>
+                        <FormControl>
+                            <Input type="text" placeholder="phone" v-bind="componentField" />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                </FormField>
+                <FormField v-slot="{ componentField }" name="password">
+                    <FormItem>
+                        <FormLabel>Password</FormLabel>
+                        <FormControl>
+                            <Input type="password" placeholder="pass" v-bind="componentField" />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                </FormField>
+                <Button class="w-full mt-2" type="submit">Submit</Button>
+
+            </form>
+        </a-modal>
+    </div>
+</template>
+<script lang="ts" setup>
+import { ref } from 'vue';
 import { toTypedSchema } from '@vee-validate/zod'
-import { Button } from '@/components/ui/button'
-import {
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
 import { loginSchema } from '~/schemas/loginSchema'
-import { type Login, type LoginForm } from '~/types'
-import {
-    Drawer,
-    DrawerClose,
-    DrawerContent,
-    DrawerDescription,
-    DrawerFooter,
-    DrawerHeader,
-    DrawerTitle,
-    DrawerTrigger,
-} from '@/components/ui/drawer'
+import { useForm } from 'vee-validate';
 
 const formSchema = toTypedSchema(loginSchema)
-const localePath = useLocalePath()
+const { login, refreshToken } = useAuth()
+
+const props = defineProps({
+    isOpen: {
+        type: Boolean,
+        required: true,
+    },
+})
+
 
 const formLogin = useForm({
     validationSchema: formSchema,
-    validateOnMount:false,
-    initialValues:{
+    validateOnMount: false,
+    initialValues: {
         password: '',
         phoneNumber: ''
-    } 
-
-})
-
-const { login, refreshToken } = useAuth()
-const onSubmit = formLogin.handleSubmit(async (values) => {
-    const datas = await login(values as LoginForm)
-
-    if (datas?.accessToken) {
-        navigateTo(localePath('/'));
     }
+
 })
 
 
+const loading = ref<boolean>(false);
+const open = ref<boolean>(false);
+
+
+const emit = defineEmits(['closeModal'])
+
+const showModal = () => {
+    open.value = true;
+};
+
+const handleOk = () => {
+    loading.value = true;
+    setTimeout(() => {
+        loading.value = false;
+        open.value = false;
+    }, 2000);
+};
+
+
+
+const onSubmit = formLogin.handleSubmit(async (values) => {
+
+    console.log({ values })
+    const datas = await login(values)
+
+    handleCancel()
+})
+
+
+const handleCancel = () => {
+
+    console.log('close islesin')
+    emit('closeModal');
+};
 </script>
-
-<template>
-    <Drawer direction="right" class="h-full">
-        <DrawerTrigger as-child>
-            <Icon name="icon-park-outline:user" />
-        </DrawerTrigger>
-        <!-- Adjusted DrawerContent to decrease width from the left -->
-        <DrawerContent class="absolute top-0 left-auto right-0 w-[600px] h-full m-0 p-4">
-            <div class="mx-auto w-full">
-                <form @submit="onSubmit">
-
-                    <DrawerHeader>
-                        <DrawerTitle>Sign In</DrawerTitle>
-                    </DrawerHeader>
-                    <div class="p-4 pb-0">
-                        <FormField v-slot="{ componentField }" name="phoneNumber">
-                            <FormItem>
-                                <FormLabel>Phone number</FormLabel>
-                                <FormControl>
-                                    <Input type="text" placeholder="phone" v-bind="componentField" />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        </FormField>
-                        <FormField v-slot="{ componentField }" name="password">
-                            <FormItem>
-                                <FormLabel>Password</FormLabel>
-                                <FormControl>
-                                    <Input type="password" placeholder="pass" v-bind="componentField" />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        </FormField>
-                    </div>
-                    <DrawerFooter>
-                        <Button type="submit">Submit</Button>
-                        <NuxtLink class="w-full" :to="$localePath('register')"> <Button class="w-full"
-                                variant="outline">Register</Button></NuxtLink>
-                        <DrawerClose as-child>
-                            <Button variant="outline">
-                                Cancel
-                            </Button>
-                        </DrawerClose>
-                    </DrawerFooter>
-                </form>
-
-            </div>
-        </DrawerContent>
-    </Drawer>
-</template>
-
-
-<style scoped>
-
-</style>

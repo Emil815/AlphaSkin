@@ -10,14 +10,14 @@ const contentItems = [
 
 <template>
     <Accordion
-        class="absolute min-w-[280px] bg-accordion rounded-tl-lg rounded-tr-lg  border-b-0 text-white border-transparent z-50 "
+        class="absolute min-w-[280px] bg-accordion rounded-tl-lg rounded-tr-lg  border-b-0 text-white border-transparent z-50"
         type="single" collapsible>
         <AccordionItem value="item-1" class="border-b-0  border-transparent">
             <AccordionTrigger class="no-underline  hover:no-underline flex justify-center gap-3 border-transparent">
                 <div class="flex align-middle items-center gap-3">
                     <Icon name="mdi:menu" />
                     <span>
-                        All Departments
+                        {{ $t('categories') }}
                     </span>
                 </div>
             </AccordionTrigger>

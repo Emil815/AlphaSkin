@@ -1,4 +1,19 @@
 {
     "mainPage": "Əsas səhifə",
+    "categories": "Kateqoriyalar",
+    "mainPageDesc": "Burada əsas səhifə ilə tanış ola bilərsiniz",
+    "productPageDesc": "Burada məhsullar ilə tanış ola bilərsiniz",
+    "others": "Digər",
+    "aboutCompany": "Alpha skin shirketi nedir",
+    "location": "Məkan",
+    "header": {
+        "search": "Axtar...",
+        "mostSearched": "Ən çox axtarılanlar"
+    },
+    "basket": "Səbət",
+    "addToCard": "Səbətə əlavə et",
+    "alreadyAdded": "Səbətə əlavə olunub",
+    "products" : "Məhsullar",
+    "notFound": "Axtarış nəticəsi yoxdur",
     "welcome": "salamm"
 }

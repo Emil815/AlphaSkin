@@ -1,68 +1,117 @@
-<script setup lang="ts">
-import AccordionMenu from './AccordionMenu.vue';
-import NavigationMenu from './NavigationMenu.vue';
-const localePath = useLocalePath()
-const header = ref<HTMLElement | null>(null);
-const isSticky = ref(false);
+<template>
+    <header class="header text-white  mb-3 top-0 z-40 w-full">
 
-const checkSticky = () => {
-    if (header.value) {
-        isSticky.value = window.scrollY > header.value.offsetHeight;
+
+        <nav v-if="!isSticky" class="container">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="top_nav_wrapper grid align-middle items-center h-[60px] justify-center md:justify-start">
+                    <div class="top_nav flex">
+                        <div class="top_nav_part flex gap-2 align-middle items-center">
+                            <Icon name="ion:location-outline" class="text-gray-700 " />
+                            <span  class="text-gray-700 cursor-pointer">{{ $t('location') }}</span>
+
+                        </div>
+                        <div class="top_nav_part flex gap-2 align-middle items-center">
+                            <Icon name="mdi:envelope-outline" class="text-gray-700 gap-3" />
+                            <span class="text-gray-700 cursor-pointer">alphaskin@mail.ru</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="top_nav_wrapper flex justify-center md:justify-end align-middle items-center h-[60px]">
+                    <div class="top_nav flex">
+                        <span class="text-gray-700">English</span>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </nav>
+
+        <div :class="{
+            'h-[150px] fixed w-full top-0 transition-all duration-200 ease-in-out animate-sticky pt-4 z-40 bg-white': isSticky,
+            'relative': !isSticky
+        }">
+            <nav class="container hidden md:block">
+                <HeaderSearchMenuNav />
+            </nav>
+
+            <nav class="container hidden md:grid grid-cols-3 nav-menu-wrapper mt-4 z-40">
+                <div class="wrapper relative z-40">
+                    <HeaderAccordionMenu />
+                </div>
+                <HeaderNavigationMenu />
+            </nav>
+
+            <nav class="container md:hidden">
+                <div class="grid grid-cols-3 gap-4 h-[70px]">
+                    <div class="left-side flex justify-center items-center">
+                        <Icon class="bg-gray-900" @click="toggleMobileMenu" name="lucide:menu" />
+                        <Icon class="bg-gray-900" name="tabler:search" />
+                    </div>
+                    <Logo />
+                    <HeaderRightIcons />
+                </div>
+            </nav>
+        </div>
+
+
+
+
+
+
+    </header>
+
+
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const mobileMenuOpen = ref(false);
+const isSticky = ref(false);
+const toggleMobileMenu = () => {
+    mobileMenuOpen.value = !mobileMenuOpen.value;
+};
+
+
+// Handle scroll event
+const onScroll = () => {
+    if (window.scrollY > 200) { // Change the value to control when the sticky effect is triggered
+        isSticky.value = true;
+    } else {
+        isSticky.value = false;
     }
 };
 
-// Authentication related states
-const { logout, useAuthToken } = useAuth(); // Access logout function and token state
-
-// Check if the user is logged in
-const isLoggedIn = computed(() => !!useAuthToken().value);
-
-
-
 onMounted(() => {
-    window.addEventListener('scroll', checkSticky);
-    checkSticky(); // Check initially
+    window.addEventListener('scroll', onScroll);
 });
 
-
-onUnmounted(() => {
-    window.removeEventListener('scroll', checkSticky);
+onBeforeUnmount(() => {
+    window.removeEventListener('scroll', onScroll);
 });
 </script>
 
+<style scoped>
 
-<template>
-    <header class="header sticky top-0 z-50 bg-white transition-all duration-300 ease-in-out transform"
-        :class="{ 'top-[-100px]': !isSticky, 'top-0': isSticky }" ref="header">
-        <div class="container">
-            <div class="grid grid-cols-12 items-center gap-4">
-                <div class="col-span-3">
-                    <Logo />
-                </div>
+@keyframes stickyAnimation {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+        /* Start slightly above */
+    }
 
-                <!-- InputButton: spans 7 columns -->
-                <div class="col-span-7">
-                    <InputButton />
-                </div>
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+        /* End in the normal position */
+    }
+}
 
-                <!-- Icon: spans 2 columns -->
-                <div class="col-span-2 icon-wrapper flex gap-4 justify-end text-2xl cursor-pointer">
-                    <AuthLoginModal v-if="!isLoggedIn" />
-                    <Icon v-if="isLoggedIn" @click="logout" name="ic:baseline-logout" />
-                    <Icon name="line-md:heart" />
-                    <Icon name="mdi-light:cart" />
-                </div>
-            </div>
-
-            <div class="header_bottom flex items-center relative overflow-visible">
-                <div class="header-bottom-cate min-w-[280px] min-h-[57px]">
-                    <AccordionMenu />
-                </div>
-                <div class="header-bottom-menu">
-                    <NavigationMenu />
-                </div>
-            </div>
-        </div>
-    </header>
-</template>
-
+.animate-sticky {
+    animation: stickyAnimation 0.2s ease-in-out forwards;
+}
+/* Add custom styles here if needed */
+</style>

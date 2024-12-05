@@ -1,5 +1,7 @@
 <template>
-    <div class="">
-        <NuxtImg width="200px" densities="x1" format="webp" src="/brandlogo.png" alt="logo" />
+    <div class="max-w-xs max-h-[60px] flex items-center">
+        <NuxtImg class="h-full w-auto" densities="1x" format="webp" src="/brandLogoMain.png" alt="logo" />
     </div>
 </template>
+
+

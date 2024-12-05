@@ -34,8 +34,6 @@
     --accordion: 0 86% 57%;
     --accordion-foreground: 0 0% 98%;
 
-    
-
     --ring: 0 0% 3.9%;
 
     --radius: 0.5rem;
@@ -78,6 +76,24 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background ;
+    height: 5000px
+  }
+  input {
+    @apply text-gray-800;
+  }
+  .nav-menu-wrapper{
+        @apply text-gray-800;
+  }
+}
+
+@layer components {
+  .top_nav_part:first-of-type::after {
+    content: "";
+    width: 1px;
+    height: 18px;
+    background-color: #d4d4d4;
+    margin: 0 15px;
+    display: inline-block;
   }
 }

@@ -5,10 +5,10 @@ export default () => {
     const useAuthToken = () => useState("auth_token");
     const useAuthUser = () => useState("auth_user");
     const useAuthLoading = () => useState("auth_loading", () => true);
+            const tokenCookie = useCookie("auth_token");
 
     const setToken = (newToken:string) => {
-        const authToken = useAuthToken();
-        authToken.value = newToken;
+        tokenCookie.value = newToken
     };
 
     // const setUser = (newUser) => {
@@ -33,6 +33,7 @@ export default () => {
           });
 
           setToken(data.accessToken);
+
           // setUser(data.user);
 
           resolve(data);

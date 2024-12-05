@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     "@nuxt/icon",
     "@nuxtjs/i18n",
     "nuxt-lodash",
+    "@ant-design-vue/nuxt",
   ],
   runtimeConfig: {
     // The private keys which are only available within server-side
@@ -27,7 +28,7 @@ export default defineNuxtConfig({
 
   i18n: {
     lazy: true,
-    langDir: "locales",
+    langDir: "locales/",
     strategy: "prefix",
     defaultLocale: "az",
     locales: [
@@ -52,4 +53,7 @@ export default defineNuxtConfig({
      */
     componentDir: "./components/ui",
   },
+  css: [
+    "@/assets/css/main.css", // This will load your custom main.css
+  ],
 });
